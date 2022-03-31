@@ -1,0 +1,9 @@
+[submodule "kite-ndn-cxx"]
+	path = kite-ndn-cxx
+	url = https://git.pcl.ac.cn/GlassyYang/kite-ndn-cxx.git
+[submodule "kite-ndn-tools"]
+	path = kite-ndn-tools
+	url = https://git.pcl.ac.cn/GlassyYang/kite-ndn-tools.git
+[submodule "kite-NFD"]
+	path = kite-NFD
+	url = https://git.pcl.ac.cn/GlassyYang/kite-nfd.git
