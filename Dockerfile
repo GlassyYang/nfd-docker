@@ -37,7 +37,7 @@ RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe 
     rm /usr/local/etc/ndn/rv.safebag
 EXPOSE 6363/tcp 6363/udp 9696/tcp
 VOLUME [ "/usr/local/etc/ndn" ]
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 CMD [ "/usr/local/bin/nfdc" "status" "report" ]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 CMD ["/usr/local/bin/nfdc", "status", "report"]
 ENTRYPOINT  [ "/home/kite/nfd-start.sh" ]
 
 
