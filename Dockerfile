@@ -5,7 +5,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 COPY ./ndn-cxx /home/ndn/ndn-cxx
 COPY ./NFD /home/ndn/NFD
 COPY ./ndn-tools /home/ndn/ndn-tools
-COPY ./nfd-start.sh /home/ndn/nfd-start.sh
+COPY ./*.sh /home/ndn/
 WORKDIR /home/ndn
 RUN apt update &&\
     apt install -y build-essential pkg-config python3-minimal libboost-all-dev libssl-dev \
