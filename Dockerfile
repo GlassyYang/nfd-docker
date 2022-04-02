@@ -2,6 +2,8 @@ FROM ubuntu:18.04
 COPY ./kite-ndn-cxx /home/kite/kite-ndn-cxx
 COPY ./kite-NFD /home/kite/kite-NFD
 COPY ./kite-ndn-tools /home/kite/kite-ndn-tools
+COPY ./*.sh /home/kite/
+COPY ./conf /usr/local/etc/ndn
 WORKDIR /home/kite
 RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse \n\
     deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse \n\
@@ -15,8 +17,7 @@ RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe 
     deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" >/etc/apt/sources.list &&\
     apt update &&\
     apt install -y build-essential pkg-config python3-minimal libboost-all-dev libssl-dev \
-    libsqlite3-dev libpcap-dev libsystemd-dev \
-    sudo &&\
+    libsqlite3-dev libpcap-dev libsystemd-dev &&\
     cd kite-ndn-cxx &&\
     ./waf configure &&\
     ./waf &&\
@@ -30,12 +31,13 @@ RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe 
     ./waf configure &&\
     ./waf &&\
     ./waf install &&\
-    rm -rf /var/lib/apt/lists/* &&\
-    rm -rf /home/kite/* &&\
     ndnsec import -i /usr/local/etc/ndn/rv.safebag -P 1 &&\
-    echo "nfd-start $@ | tee /dev/null" >/home/kite/start.sh
+    rm -rf /var/cache/debconf/* /var/lib/apt/lists/* /var/log/* /var/tmp/* /tmp/*  &&\
+    rm -rf /home/kite/kite-ndn-cxx /home/kite/kite-NFD /home/kite/kite-ndn-tools &&\
+    rm /usr/local/etc/ndn/rv.safebag
 EXPOSE 6363/tcp 6363/udp 9696/tcp
-COPY ./conf /usr/local/etc/ndn
-ENTRYPOINT  /bin/bash
+VOLUME [ "/usr/local/etc/ndn" ]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 CMD [ "/usr/local/bin/nfdc" "status" "report" ]
+ENTRYPOINT  [ "/home/kite/nfd-start.sh" ]
 
 

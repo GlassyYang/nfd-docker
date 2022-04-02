@@ -1,0 +1,3 @@
+FROM kite-nfd:0.7.1
+COPY ./*.sh /home/kite/
+ENTRYPOINT [ "/home/kite/nfd-start.sh" ]
