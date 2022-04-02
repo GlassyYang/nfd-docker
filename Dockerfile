@@ -27,7 +27,7 @@ RUN apt update &&\
     rm -rf /home/ndn/ndn-cxx /home/ndn/ndn-tools /home/ndn/NFD 
 EXPOSE 6363/tcp 6363/udp 9696/tcp
 VOLUME [ "/usr/local/etc/ndn" ]
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 CMD [ "/usr/local/bin/nfdc" "status" "report" ]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 CMD ["/usr/local/bin/nfdc", "status", "report"]
 ENTRYPOINT  [ "/home/ndn/nfd-start.sh" ]
 
 
